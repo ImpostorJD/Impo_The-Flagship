@@ -26,3 +26,45 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+tasks.named('bootRun') {
+    // no systemProperty for app.file-read.enabled here
+}
+
+tasks.register('runFileRead') { // <-- we register command line runner as task we can execute later
+    dependsOn 'bootRun'
+	 // Accept a -PbootArgs="..." flag - if we want to isolate CLR from bootapplication, we require this to be regocnized as "args"
+	// doFirst {
+    //     def a = project.findProperty('bootArgs')
+    //     if (a) {
+    //         tasks.named('bootRun', JavaExec) {
+    //             args a.split(' ')
+    //         }
+    //     }
+    // }
+}
+tasks.register('runPdfFileRead') { 
+    dependsOn 'bootRun'
+
+}
+
+gradle.taskGraph.whenReady { graph -> //<- this basically says, if task is ready, append the properties.
+    if (graph.hasTask(':runFileRead')) {
+        tasks.named('bootRun', JavaExec) {
+            systemProperty 'app.file-read.enabled', 'true'
+			//instead of the do first we add it here since its bugging, array is empty if done on dofirst
+			def a = project.findProperty('bootArgs')
+            if (a) {
+                args a.split(' ')
+            }
+        }
+    }
+
+	if (graph.hasTask(':runPdfFileRead')) {
+		tasks.named('bootRun', JavaExec) {
+            // systemProperty 'app.file-read.enabled', 'true'
+			//instead of the do first we add it here since its bugging, array is empty if done on dofirst
+			def filePath = project.findProperty('filePath')
+			args filePath
+        }
+	}
+}

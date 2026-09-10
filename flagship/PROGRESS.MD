@@ -5,4 +5,9 @@
              - Added a simple file read using buffered reader
              - GOALS FOR THE NEXT DAY: Parse a file(preferrably pdf or excel or smth, more challenging than md or txt files)
 
-2026-xx-xx   
+2026-09-10   - Built a hand-rolled PDF text extractor to understand what's actually  happening under the hood. 
+                Hit two real bug on the first test PDF: stacked 
+                ASCII85+Flate encoding needing reversal in the right order, and ReportLab 
+                omitting the newline before "endstream" when /Length is known. Fixed both by 
+                reading actual byte output instead of guessing. Now switching to PDFBox for 
+                the actual Phase 1 build — keeping this as a reference for why PDF parsing is genuinely nontrivial.
