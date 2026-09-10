@@ -1,15 +1,16 @@
-package com.the.flagship.jdt.flagship.document_reviewer.utilities;
+package com.the.flagship.jdt.flagship.document_reviewer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import com.the.flagship.jdt.flagship.document_reviewer.CommandLineSample;
+import com.the.flagship.jdt.flagship.document_reviewer.utilities.PdfExporterUtil;
 
-@Component 
+@Component
+@ConditionalOnProperty(name = "app.runner", havingValue = "pdf-java") //<-- added this for profiling
 public class PdfToJavaReadableDecoderBatch implements CommandLineRunner {
-
 
     private PdfExporterUtil pdfExporterService;
     private static final Logger LOG = (Logger) LoggerFactory

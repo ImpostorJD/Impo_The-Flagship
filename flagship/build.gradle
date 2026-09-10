@@ -19,8 +19,15 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.apache.pdfbox:pdfbox:3.0.8'
+	implementation platform("org.springframework.ai:spring-ai-bom:2.0.0")
+ 	 // Replace the following with the specific module dependencies (e.g., spring-ai-openai) or starter modules (e.g., spring-ai-starter-model-openai) that you wish to use
+  	// implementation 'org.springframework.ai:spring-ai-openai'
+	implementation 'org.springframework.ai:spring-ai-starter-model-openai'   
+
 }
 
 tasks.named('test') {
@@ -42,15 +49,26 @@ tasks.register('runFileRead') { // <-- we register command line runner as task w
     //     }
     // }
 }
-tasks.register('runPdfFileRead') { 
-    dependsOn 'bootRun'
 
+tasks.register('runPdfFileReadWithPdfbox') { 
+    dependsOn 'bootRun'
+}
+
+tasks.register('runPdfFileReadWithPdfBox') { 
+    dependsOn 'bootRun'
+}
+
+tasks.register('runChat', JavaExec) {
+    dependsOn 'classes'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.the.flagship.jdt.flagship.FlagshipApplication'
+    standardInput = System.in
 }
 
 gradle.taskGraph.whenReady { graph -> //<- this basically says, if task is ready, append the properties.
     if (graph.hasTask(':runFileRead')) {
         tasks.named('bootRun', JavaExec) {
-            systemProperty 'app.file-read.enabled', 'true'
+			systemProperty 'app.runner', 'sample-clr'
 			//instead of the do first we add it here since its bugging, array is empty if done on dofirst
 			def a = project.findProperty('bootArgs')
             if (a) {
@@ -61,10 +79,23 @@ gradle.taskGraph.whenReady { graph -> //<- this basically says, if task is ready
 
 	if (graph.hasTask(':runPdfFileRead')) {
 		tasks.named('bootRun', JavaExec) {
+			systemProperty 'app.runner', 'pdf-java'
             // systemProperty 'app.file-read.enabled', 'true'
 			//instead of the do first we add it here since its bugging, array is empty if done on dofirst
 			def filePath = project.findProperty('filePath')
 			args filePath
         }
 	}
+	
+	if (graph.hasTask(':runPdfFileReadWithPdfbox')) {
+		tasks.named('bootRun', JavaExec) {
+			systemProperty 'app.runner', 'pdf-box'
+            // systemProperty 'app.file-read.enabled', 'true'
+			//instead of the do first we add it here since its bugging, array is empty if done on dofirst
+			def filePath = project.findProperty('filePath')
+			args filePath
+        }
+	}
+
+
 }

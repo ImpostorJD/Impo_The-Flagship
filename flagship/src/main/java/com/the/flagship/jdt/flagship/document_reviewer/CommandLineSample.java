@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(name = "app.file-read.enabled", havingValue = "true") //<-- checks if app.file-read.enabled is configured true. otherwise dont execute
+@ConditionalOnProperty(name = "app.runner", havingValue = "sample-clr") //<-- added this for profiling
 public class CommandLineSample implements CommandLineRunner {
 
      private static final Logger LOG = (Logger) LoggerFactory

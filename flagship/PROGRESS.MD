@@ -11,3 +11,8 @@
                 omitting the newline before "endstream" when /Length is known. Fixed both by 
                 reading actual byte output instead of guessing. Now switching to PDFBox for 
                 the actual Phase 1 build — keeping this as a reference for why PDF parsing is genuinely nontrivial.
+
+2026-09-10   - Built a simple pdf text extractor with PDFBox
+                No bugs whatsoever, PDF is formatted
+                same procedure, convert to byte then extract text 
+                phase 1 complete, creating a document parsing

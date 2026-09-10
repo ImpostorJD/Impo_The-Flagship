@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PdfExporterUtil {
 
-        // Pre-compiled regex (static = created once at class-load, not per call).
+    // Pre-compiled regex (static = created once at class-load, not per call).
     // CHANGED (again): the previous version required a newline directly before
     // "endstream" (\r?\nendstream). That assumption broke on this PDF too —
     // ReportLab (the library that generated it) omits the trailing newline
@@ -257,7 +257,7 @@ public class PdfExporterUtil {
         out.write(bytes, 0, validCount == 5 ? 4 : validCount - 1);
     }
 
-    // Decompresses zlib/DEFLATE data using Java's built-in Inflater.
+    // Decompresses  
     // No external library needed for this part — it's built into the JDK.
     private String inflate(byte[] input) throws Exception {
         // new Inflater() = expect a 2-byte zlib header (the standard case,
