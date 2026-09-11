@@ -62,6 +62,7 @@ tasks.register('runChat', JavaExec) {
     dependsOn 'classes'
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.the.flagship.jdt.flagship.FlagshipApplication'
+	systemProperty 'app.runner', 'simple-chat-batch'
     standardInput = System.in
 }
 

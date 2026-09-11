@@ -39,3 +39,6 @@ out/
 .fake
 
 application.properties
+
+*hs_*
+*replay*

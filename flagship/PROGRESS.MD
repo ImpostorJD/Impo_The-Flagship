@@ -16,3 +16,10 @@
                 No bugs whatsoever, PDF is formatted
                 same procedure, convert to byte then extract text 
                 phase 1 complete, creating a document parsing
+
+2026-09-11   - Utilized Spring AI capability to connect terminal to AI model's API using google gemini studios
+                Simple config, learned about @Qualifier, tryna understand the role of advisor.
+                For now use gemini as it has a free tier that we can play around (of course once token runs out this will be dead)
+                Will transfer to anthropic once i get to know how this AI spring works.
+                TODO:
+                    - prompt engineering, advisor thingy, handle exceptions gracefully
